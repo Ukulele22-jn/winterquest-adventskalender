@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Die Winterquest – 24 Türchen bis Weihnachten</title>
+<meta name="description" content="Persönliches Winterabenteuer mit 24 Missionen, Inventar und Endboss.">
+<style>
+:root{--ink:#f7f7ff;--muted:#c5d5ee;--panel:#10243ceF;--line:#8cc9e8;--red:#ff5f72;--green:#6ce5a0;--gold:#ffd978}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#071626;background-image:radial-gradient(circle at 15% 12%,#284e70 0,transparent 28%),radial-gradient(circle at 82% 20%,#233b68 0,transparent 30%),linear-gradient(#0b2038,#102d43 58%,#091a2a);min-height:100vh}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.32;background-image:radial-gradient(#fff 1px,transparent 1.5px);background-size:43px 43px}
+header{position:relative;text-align:center;padding:30px 16px 18px}h1{font-size:clamp(1.8rem,5vw,3.4rem);line-height:1.05;margin:8px 0;color:#fff;text-shadow:3px 3px 0 #2c5275,0 0 22px #8edcff;letter-spacing:.03em}header p{color:#d9edff;margin:10px auto;max-width:650px}.pixel{font-family:ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase;font-size:.78rem;color:var(--gold)}
+.wrap{width:min(1120px,94vw);margin:0 auto 40px;position:relative}.panel{background:var(--panel);border:2px solid #7db6d2;border-radius:16px;box-shadow:0 8px 0 #06111e,0 0 30px #5dbce522;padding:18px;margin:14px 0}
+.toprow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}.stats{display:flex;gap:8px;flex-wrap:wrap}.pill{background:#1a3854;border:1px solid #6399ba;border-radius:999px;padding:7px 12px;font-size:.9rem}
+button{font:inherit;cursor:pointer;border:2px solid #9bd6ee;border-radius:10px;padding:10px 14px;color:#f7fbff;background:#244e70;box-shadow:0 4px 0 #071626;transition:transform .12s,filter .12s}button:hover{filter:brightness(1.15);transform:translateY(-1px)}button:active{transform:translateY(2px);box-shadow:0 1px 0 #071626}button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}.primary{background:#2d8b78;border-color:#9ef0ce}.soft{background:#1b3148}.danger{border-color:#ff8b96;background:#7a3045}
+.map{position:relative;overflow:hidden;min-height:360px;border-radius:14px;border:2px solid #7db6d2;background:linear-gradient(#17375a 0 48%,#d5eff5 48% 62%,#b4dce8 62% 100%);padding:20px}
+.map:before{content:"";position:absolute;left:-5%;right:-5%;bottom:-65px;height:190px;background:#719eb2;transform:rotate(-4deg);border-top:12px solid #e8fbff;box-shadow:0 -18px 0 #bde6f0}
+.moon{position:absolute;right:9%;top:24px;width:62px;height:62px;border-radius:50%;background:#fff5c9;box-shadow:0 0 24px #fff0ad}
+.mountain{position:absolute;bottom:90px;left:8%;width:0;height:0;border-left:100px solid transparent;border-right:100px solid transparent;border-bottom:170px solid #547e9a;filter:drop-shadow(0 8px 0 #d8f4f8)}
+.mountain:after{content:"";position:absolute;top:24px;left:-49px;border-left:49px solid transparent;border-right:49px solid transparent;border-bottom:70px solid #effcff}
+.maplabel{position:relative;z-index:1;text-align:center;color:#15324c;font-weight:900;letter-spacing:.08em;text-shadow:0 1px white;margin:0 0 15px}
+.levelgrid{position:relative;z-index:2;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;max-width:790px;margin:22px auto 0}
+.level{min-height:56px;padding:7px 4px;background:#7b283b;border:2px solid #ff8591;color:white;font-weight:900;font-size:1.1rem;position:relative}
+.level.done{background:#176c52;border-color:#8cf0b4;color:#d9ffea}.level.done:after{content:"✓";position:absolute;right:4px;top:0;font-size:.68rem}.level .tiny{display:block;font-size:.58rem;font-weight:600;opacity:.85}
+.legend{position:relative;z-index:1;display:flex;justify-content:center;gap:14px;flex-wrap:wrap;color:#17324b;font-size:.85rem;margin-top:18px}
+.columns{display:grid;grid-template-columns:1.35fr .85fr;gap:14px}.sectiontitle{margin:0 0 10px;font-size:1.15rem}.muted{color:var(--muted)}.itemlist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.item{background:#183752;border:1px solid #527f9e;border-radius:10px;padding:10px;font-size:.9rem}.item strong{display:block;color:#ffe5a0}.empty{color:#b5cbe0;font-style:italic}
+.hidden{display:none!important}#authPanel label{display:inline-block;margin-top:5px;color:#dceeff;font-weight:650}.storytitle{font-size:1.55rem;margin:5px 0 10px}.reward{border:1px solid #e7c76b;background:#4b4029;border-radius:12px;padding:13px;margin:14px 0}.choices{display:flex;gap:9px;flex-wrap:wrap;margin:15px 0}.storytext{line-height:1.65;color:#e4f1ff}.footer{text-align:center;color:#a9c3da;font-size:.8rem;padding:0 10px 25px}
+input[type=text]{background:#0b1e30;color:white;border:1px solid #6e9ebc;border-radius:8px;padding:10px;width:min(100%,340px);font:inherit}
+@media(max-width:700px){.columns{grid-template-columns:1fr}.levelgrid{grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}.level{min-height:50px}.map{padding:14px;min-height:340px}.mountain{left:0;transform:scale(.8);transform-origin:bottom left}.itemlist{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="pixel">Ein kleines Pixel-Art-Winterabenteuer</div>
+  <h1>❄ DIE WINTERQUEST ❄</h1>
+  <p>24 Türchen bis Weihnachten · Stelle das beschädigte Weihnachtssystem wieder her.</p>
+</header>
+<main class="wrap">
+<section id="authPanel" class="panel">
+ <div class="pixel">Spielstand auf mehreren Geräten</div>
+ <h2>Willkommen zur Winterquest</h2>
+ <p class="storytext">Für einen gemeinsamen Spielstand melde dich mit derselben E-Mail-Adresse und demselben Passwort auf jedem Gerät an.</p>
+ <div id="setupNotice" class="reward"><b>Einmalige Einrichtung nötig</b><p>Folge ANLEITUNG_DE.txt, verbinde diese Website mit Supabase und trage dort die Projekt-URL sowie den öffentlichen Schlüssel ein.</p></div>
+ <div id="authForm" class="hidden">
+  <label for="email">E-Mail-Adresse</label><br><input id="email" type="email" placeholder="deine@email.de" autocomplete="email" style="margin:6px 0 12px;width:min(100%,380px)"><br>
+  <label for="password">Passwort (mindestens 6 Zeichen)</label><br><input id="password" type="password" placeholder="Passwort" autocomplete="current-password" style="margin:6px 0 12px;width:min(100%,380px)">
+  <div class="choices"><button id="signup" class="primary">Konto erstellen</button><button id="login">Anmelden</button></div>
+ </div>
+ <div id="authMsg" class="storytext" role="status" aria-live="polite"></div>
+ <button id="localPreview" class="soft">Vorschau lokal ausprobieren</button>
+</section>
+<section id="accountBar" class="panel hidden"><div class="toprow"><span id="accountStatus" class="muted">Cloud-Spielstand verbunden</span><button id="logout" class="soft">Abmelden</button></div></section>
+  <section id="home" class="panel">
+    <div class="toprow"><div><div class="pixel">Deine Mission beginnt hier</div><h2 style="margin:7px 0">Das Weihnachtssystem ist beschädigt!</h2></div><div class="stats"><span class="pill">🎄 24 Missionen</span><span class="pill" id="homeProgress">0 / 24 abgeschlossen</span></div></div>
+    <p class="storytext">Der Eisregent hat die 24 Wintersiegel durcheinandergebracht. Überall verschwinden Wärme, Licht und Weihnachtszauber. Öffne die Missionen, löse kleine Aufgaben und sammle Ausrüstung. Am Ende wartet der Eisregent auf dich.</p>
+    <button class="primary" id="startBtn">Zur Winterkarte →</button>
+  </section>
+  <section id="mapScreen" class="hidden">
+    <div class="panel toprow"><div><div class="pixel">Weltkarte</div><h2 style="margin:4px 0">Wähle deine Mission</h2><span class="muted">Finde die Türchen in der Winterwelt.</span></div><div class="stats"><span class="pill" id="mapProgress">0 / 24 grüne Siegel</span><button class="soft" id="inventoryBtn">🎒 Inventar</button></div></div>
+    <div class="map"><div class="moon"></div><div class="mountain"></div><div class="maplabel">✦ DIE VERSCHNEITE WINTERWELT ✦</div><div class="levelgrid" id="levelGrid"></div><div class="legend"><span>🔴 Noch offen</span><span>🟢 Abgeschlossen</span><span>🎒 Gegenstände sammeln</span></div></div>
+    <div class="panel"><div class="toprow"><div><strong>Dein Quest-Tagebuch</strong><div class="muted" id="mapHint">Wähle ein rotes Level, um loszulegen.</div></div><button id="resetBtn" class="soft">Spielstand zurücksetzen</button></div></div>
+  </section>
+  <section id="levelScreen" class="panel hidden">
+    <div class="toprow"><button id="backMap" class="soft">← Zur Karte</button><span class="pill" id="levelCount">Mission 1 von 24</span></div>
+    <div class="pixel" id="chapterLabel" style="margin-top:18px">Winterquest</div><h2 class="storytitle" id="levelTitle"></h2><div class="storytext" id="levelStory"></div>
+    <div id="levelTask" class="reward"></div>
+    <div id="levelChoices" class="choices"></div>
+    <div id="levelResult" class="storytext"></div>
+    <div id="rewardBox" class="reward hidden"></div>
+    <div class="toprow"><button id="completeBtn" class="primary hidden">Mission abschließen & Gegenstand einsammeln ✓</button><button id="nextBtn" class="hidden">Zur nächsten Mission →</button></div>
+  </section>
+  <section id="inventoryScreen" class="panel hidden">
+    <div class="toprow"><div><div class="pixel">Dein Rucksack</div><h2 style="margin:4px 0">🎒 Inventar</h2></div><button id="backFromInventory" class="soft">← Zur Karte</button></div>
+    <p class="muted">Jeder echte Gegenstand wird hier als Ausrüstung für den Endkampf vermerkt. Die Bonus-Runen sind magische Quest-Funde.</p>
+    <div class="itemlist" id="inventoryList"></div>
+  </section>
+  <section id="bossScreen" class="panel hidden">
+    <div class="pixel">Letzte Mission · Level 24</div><h2 class="storytitle">👑 Der Eisregent</h2><p class="storytext">Der Himmel wird schwarzblau. Der Eisregent erhebt seine Krone aus Eis. „Ohne deine gesammelte Ausrüstung wirst du scheitern!“ Doch du hast deine Reise nicht allein bestritten.</p>
+    <div class="reward"><strong>Deine Ausrüstung im Endkampf</strong><div id="bossGear" class="itemlist" style="margin-top:10px"></div></div>
+    <h3>Wie eröffnest du den Kampf?</h3><div class="choices"><button data-boss="warm">🔥 Wärme und Verbundenheit einsetzen</button><button data-boss="clever">🧭 Runen und Werkzeuge einsetzen</button><button data-boss="strong">🛡️ Schutz und Kraft einsetzen</button></div>
+    <div id="bossResult" class="storytext"></div><div class="choices"><button id="bossFinish" class="primary hidden">Den letzten Schlag führen ✨</button></div>
+  </section>
+  <section id="endingScreen" class="panel hidden"><div class="pixel">Quest abgeschlossen</div><h2 class="storytitle">✨ Die Winterwelt ist gerettet! ✨</h2><p class="storytext">Die 24 Siegel leuchten wieder. Der Eisregent zerfällt zu glitzerndem Schnee, und überall kehrt warmes Licht zurück.</p><p style="font-size:1.2rem;color:#ffe7a0;text-align:center">„Quest abgeschlossen. Winterwelt gerettet. Mein Herz gewonnen.“ ❤️</p><p class="storytext">Und die wichtigste Belohnung wartet ausserhalb des Spiels: Zeit mit mir. Frohe Weihnachten, du Held.</p><button class="primary" id="endingMap">Zur Karte zurück</button></section>
+</main>
+<div class="footer">Ein persönliches Adventsabenteuer · Der Spielstand wird in diesem Browser gespeichert.</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// EINMAL EINRICHTEN: URL und öffentlichen Publishable/anon-Schlüssel aus Supabase eintragen.
+// NIEMALS einen service_role- oder secret key in diese Datei schreiben.
+const SUPABASE_URL = "https://ytbezbttvwyvufziiqdh.supabase.co/rest/v1/";
+const SUPABASE_PUBLIC_KEY = "sb_publishable_XifkA_Wp4jRki5loTrIb2g_UxIKFAzX";
+let sb = null, cloudMode = false, currentUser = null, saveTimer = null;
+const levels = [
+["Ruf aus dem Schnee","Ein Funkspruch knistert im Schneesturm. Die Winterenergie ist fast erloschen. Ein kleiner Funke wartet auf dich.","Finde deinen Mut: Welche Kraft hilft dir, den ersten Frost zu überstehen?","Wintershot","🔥 Flammenfunke","Der Wintershot entfacht einen warmen Flammenfunken. Dein Abenteuer beginnt!","real"],
+["Die zerbrochene Rune","Auf einem Stein liegt eine Rune, deren Zeichen verschwunden sind. Ohne sie findet niemand den Weg.","Womit könntest du ein fehlendes Zeichen neu schreiben?","Stift","✍️ Runenschreiber","Mit dem Stift zeichnest du die Rune nach. Der Weg leuchtet wieder auf.","real"],
+["Der Nebelpfad","Dichter Nebel versperrt den Waldweg. Aus dem Grau ertönen geheimnisvolle Schritte.","Was könnte den Nebel der Verwirrung vertreiben?","Schuhdeo","🌫️ Nebelbrecher","Der Nebel lichtet sich und gibt einen sicheren Pfad frei.","real"],
+["Die Felsenbrücke","Die alte Brücke knarrt über einer eisigen Schlucht. Du brauchst eine kleine Kraftreserve.","Was nimmst du für einen schnellen Energieschub?","Nüsse","💪 Kraftreserve","Ein kleiner Snack gibt dir Kraft, und du überquerst die Brücke.","real"],
+["Die verfluchte Truhe","Ein Knäuel aus magischen Fäden hält die Truhe verschlossen.","Welches Werkzeug hilft beim Entwirren?","Kamm","🪮 Entwirrer","Du entwirrst die magischen Fäden und öffnest die Truhe.","real"],
+["Die eisige Rüstung","Eisiger Regen prasselt auf deinen Weg. Deine Ausrüstung muss geschützt werden.","Wie schützt du etwas vor Nässe?","Imprägnierspray","🛡️ Frostschild","Ein Frostschild perlt den eisigen Regen ab. Du bleibst geschützt.","real"],
+["Der hungrige Wächter","Ein kleiner Schneewächter versperrt den Durchgang. Sein Magen knurrt lauter als der Sturm.","Wie könntest du ihn freundlich ablenken?","Schokobrezeln","🥨 Knusperköder","Der Wächter knabbert zufrieden und lässt dich passieren.","real"],
+["Die Höhle der Schatten","In einer Höhle tanzen Schatten über die Wände. In der Mitte schwebt ein Splitter aus Licht.","Was könnte dir in einer dunklen Höhle helfen?","Lichtsplitter","💎 Lichtsplitter","Du findest einen Lichtsplitter. Er ist ein magischer Quest-Gegenstand.","magic"],
+["Der Sturmberg","Der Wind heult, und der Gipfel scheint endlos weit weg. Du brauchst einen Energieschub.","Welche Ausrüstung hilft dir, durchzuhalten?","Energieriegel","⚡ Blitzenergie","Die Blitzenergie gibt dir den Schwung für den letzten Anstieg.","real"],
+["Das Rätsel der drei Tore","Drei Tore stehen vor dir: Kraft, Geduld und Klugheit. Über jedem schwebt ein leeres Zeichen.","Welches Zeichen führt dich weiter?","Kompassrune","🧭 Kompassrune","Die Kompassrune zeigt auf das richtige Tor. Du darfst sie behalten.","magic"],
+["Die Quelle der Wärme","Eine gefrorene Quelle wartet darauf, wieder zu sprudeln. Ihr fehlt ein Hauch Wärme.","Was spendet dir an einem kalten Tag Wärme?","Heiße Zitrone","☀️ Wärmeaura","Die Wärme kehrt in die Quelle zurück und füllt die Luft mit goldenen Funken.","real"],
+["Die Nachtwache","Vor dem nächsten Tor musst du deine Kräfte einteilen. Noch liegt ein langer Weg vor dir.","Welche kleine Stärkung hilft dir weiter?","Nussriegel","🔋 Ausdauer","Du tankst Ausdauer und erreichst das nächste Siegel.","real"],
+["Herz zu zweit","Ein Tor öffnet sich nur, wenn zwei Herzen gemeinsam ein Siegel aktivieren. Heute ist euer besonderer Monatstag.","Was macht ein gemeinsames Abenteuer besonders?","Udon-Nudeln mit Curry","❤️ Band der Verbundenheit","Das Siegel leuchtet auf. Heute wird die Quest kurz zur Date-Night: Udon-Nudeln mit Curry warten auf euch.","real"],
+["Die Schneeküche","In einer verlassenen Küche ist ein Kessel eingefroren. Ein vertrauter Duft könnte die Magie wecken.","Welche Suppe bringt ein bisschen Seelenwärme?","Süsskartoffelsuppe","🥣 Seelenwärme","Die Suppe schenkt der Küche Wärme. Ein weiteres Siegel ist gerettet.","real"],
+["Die Werkstatt des Magiers","Eine uralte Maschine für das Weihnachtssystem ist auseinandergefallen. Ein Reparaturkern pulsiert im Staub.","Was braucht eine kaputte Maschine, bevor sie wieder laufen kann?","Reparaturkern","⚙️ Reparaturkern","Der magische Kern ist gefunden. Die Maschine beginnt wieder leise zu summen.","magic"],
+["Der Traum der Winterwelt","Du betrittst einen Traum aus Zuckersternen und Schneeflocken. Eine kleine Belohnung liegt bereit.","Was ist die perfekte kleine süsse Pause?","Tassenkuchen","🧁 Glückszauber","Ein Glückszauber hüllt dich ein und lässt den Schnee glitzern.","real"],
+["Der Spiegel des Zweifels","Ein Spiegel zeigt dir eine falsche Version deiner Reise. Nur wer ehrlich hinsieht, erkennt die Wahrheit.","Was hilft dir, eine Illusion zu durchschauen?","Wahrheitssiegel","🔮 Wahrheitssiegel","Der Spiegel zerbricht in Lichtpunkte. Das Wahrheitssiegel gehört dir.","magic"],
+["Die verborgene Kammer","Hinter einer Eiswand findest du eine Kammer, die von sanfter Magie erfüllt ist.","Welche warme Mahlzeit passt zu einer ruhigen Pause?","Schokoporridge","🍫 Magischer Schutzbrei","Die magische Wärme schützt dich vor den Schatten der Kammer.","real"],
+["Der Wächter der Stille","Ein steinerner Wächter schläft seit hundert Wintern. Ein sanfter Ruf könnte ihn erwecken.","Was könnte einen schlafenden Wächter freundlich wecken?","Erweckungsruf","📯 Erweckungsruf","Der Wächter erwacht und verneigt sich. Er verspricht, dir im Finale beizustehen.","magic"],
+["Die Festung des Eisregenten","Die Festung erhebt sich über dem Tal. Ein Schild der Standhaftigkeit liegt im Schnee.","Welche Stärkung hilft dir, standhaft zu bleiben?","Erdnuss-Porridge","🛡️ Schild der Standhaftigkeit","Du stärkst dich und näherst dich der Festung des Eisregenten.","real"],
+["Die letzte Ausrüstung","Vor dem Thronsaal liegt eine Truhe mit der letzten Heldenrüstung.","Was gehört zur Grundausrüstung eines Helden?","Unterwäsche","🧥 Heldenrüstung","Die Heldenrüstung ist bereit. Ein Held darf sich auch um die praktischen Dinge kümmern.","real"],
+["Der Beutel der Möglichkeiten","Ein geheimnisvoller Beutel kann Dinge sicher verstauen, die du auf deiner Reise gesammelt hast.","Was hilft, kleine Schätze beisammenzuhalten?","Kosmetiktasche","🎒 Dimensionsbeutel","Dein Dimensionsbeutel bewahrt deine gesammelten Schätze für den Endkampf auf.","real"],
+["Das letzte Siegel","Nur ein einziges Siegel fehlt. Es schwebt über einem Sockel und wartet auf die richtige Geste.","Was öffnet das letzte Tor zur Winterwelt?","Schlüssel der Winterwelt","🗝️ Schlüssel der Winterwelt","Der Schlüssel erscheint in einem Lichtblitz. Der Weg zum Eisregenten ist frei.","magic"],
+["Der Eisregent","Der Eisregent erhebt sich. Deine Reise, deine Gegenstände und deine Entscheidungen haben dich hierhergeführt.","Nutze dein Inventar und wähle deine Strategie für den letzten Kampf.","Alle gesammelten Gegenstände","👑 Mut des Winterhelden","Der Endkampf beginnt! Setze deine gesammelte Ausrüstung klug ein.","boss"]
+];
+const realRewards = {1:["Wintershot","🔥 Flammenfunke"],2:["Stift","✍️ Runenschreiber"],3:["Schuhdeo","🌫️ Nebelbrecher"],4:["Nüsse","💪 Kraftreserve"],5:["Kamm","🪮 Entwirrer"],6:["Imprägnierspray","🛡️ Frostschild"],7:["Schokobrezeln","🥨 Knusperköder"],9:["Energieriegel","⚡ Blitzenergie"],11:["Heiße Zitrone","☀️ Wärmeaura"],12:["Nussriegel","🔋 Ausdauer"],13:["Udon-Nudeln mit Curry","❤️ Band der Verbundenheit"],14:["Süsskartoffelsuppe","🥣 Seelenwärme"],16:["Tassenkuchen","🧁 Glückszauber"],18:["Schokoporridge","🍫 Magischer Schutzbrei"],20:["Erdnuss-Porridge","🛡️ Schild der Standhaftigkeit"],21:["Unterwäsche","🧥 Heldenrüstung"],22:["Kosmetiktasche","🎒 Dimensionsbeutel"]};
+const key="winterquest_v1";
+let state=loadState(), current=1, selectedChoice=null;
+function loadState(){try{return JSON.parse(localStorage.getItem(key))||{done:[],items:[]}}catch(e){return {done:[],items:[]}}}
+function localSave(){localStorage.setItem(key,JSON.stringify(state));renderProgress()}
+async function save(){
+ localSave();
+ if(cloudMode && currentUser && sb){
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(async()=>{
+   const {error}=await sb.from("winterquest_progress").upsert({user_id:currentUser.id,state:state,updated_at:new Date().toISOString()},{onConflict:"user_id"});
+   document.getElementById("accountStatus").textContent=error?"Cloud-Speicherung fehlgeschlagen; lokale Kopie bleibt erhalten.":"☁️ Spielstand online gespeichert";
+   if(error) console.error(error);
+  },400);
+ }
+}
+function authMessage(t,err=false){const e=document.getElementById("authMsg");e.textContent=t;e.style.color=err?"#ffb4bd":"#c8f7df";}
+function gate(loggedIn){
+ document.getElementById("authPanel").classList.toggle("hidden",loggedIn);
+ document.getElementById("accountBar").classList.toggle("hidden",!loggedIn);
+ if(!loggedIn) ["home","mapScreen","levelScreen","inventoryScreen","bossScreen","endingScreen"].forEach(id=>document.getElementById(id).classList.add("hidden"));
+}
+async function loadCloud(){
+ if(!currentUser)return;
+ document.getElementById("accountStatus").textContent="☁️ Lade Spielstand …";
+ const {data,error}=await sb.from("winterquest_progress").select("state").eq("user_id",currentUser.id).maybeSingle();
+ if(error){authMessage("Cloud-Laden fehlgeschlagen. Bitte die SQL-Einrichtung aus der Anleitung prüfen.",true);return;}
+ if(data && data.state){state={done:Array.isArray(data.state.done)?data.state.done:[],items:Array.isArray(data.state.items)?data.state.items:[]};}
+ else {state={done:[],items:[]};const r=await sb.from("winterquest_progress").upsert({user_id:currentUser.id,state:state},{onConflict:"user_id"});if(r.error)console.error(r.error);}
+ localSave();renderMap();gate(true);show("home");
+ document.getElementById("accountStatus").textContent="☁️ Verbunden: "+currentUser.email;
+}
+async function initCloud(){
+ const configured=SUPABASE_URL.startsWith("https://")&&!SUPABASE_URL.includes("HIER_")&&SUPABASE_PUBLIC_KEY.length>20&&!SUPABASE_PUBLIC_KEY.includes("HIER_");
+ if(!configured){authMessage("Cloud noch nicht eingerichtet. Du kannst die lokale Vorschau testen.");return;}
+ if(!window.supabase){authMessage("Supabase konnte nicht geladen werden. Bitte Internetverbindung prüfen.",true);return;}
+ sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLIC_KEY);cloudMode=true;
+ document.getElementById("setupNotice").classList.add("hidden");document.getElementById("authForm").classList.remove("hidden");document.getElementById("localPreview").classList.add("hidden");
+ const {data:{session}}=await sb.auth.getSession();
+ if(session){currentUser=session.user;await loadCloud();}else{gate(false);authMessage("Konto erstellen oder anmelden. Nutze auf jedem Gerät dieselben Zugangsdaten.");}
+ sb.auth.onAuthStateChange(async(event,session)=>{
+  if(session && !currentUser){currentUser=session.user;await loadCloud();}
+  else if(!session){currentUser=null;gate(false);authMessage("Abgemeldet. Melde dich an, um den Online-Spielstand zu laden.");}
+ });
+}
+async function createAccount(){
+ const email=document.getElementById("email").value.trim(),password=document.getElementById("password").value;
+ if(!email||password.length<6){authMessage("Bitte gültige E-Mail und Passwort mit mindestens 6 Zeichen eingeben.",true);return;}
+ authMessage("Konto wird erstellt …");const {data,error}=await sb.auth.signUp({email,password});
+ if(error){authMessage(error.message,true);return;}
+ if(data.session){currentUser=data.user;await loadCloud();}
+ else authMessage("Bitte öffne den Bestätigungslink in deiner E-Mail und melde dich danach an. Prüfe auch den Spam-Ordner.");
+}
+async function signIn(){
+ const email=document.getElementById("email").value.trim(),password=document.getElementById("password").value;
+ if(!email||!password){authMessage("Bitte E-Mail und Passwort eingeben.",true);return;}
+ authMessage("Anmeldung läuft …");const {data,error}=await sb.auth.signInWithPassword({email,password});
+ if(error){authMessage(error.message,true);return;}currentUser=data.user;await loadCloud();
+}
+function show(id){["home","mapScreen","levelScreen","inventoryScreen","bossScreen","endingScreen"].forEach(x=>document.getElementById(x).classList.toggle("hidden",x!==id));window.scrollTo({top:0,behavior:"smooth"})}
+function renderProgress(){let n=state.done.length;document.getElementById("homeProgress").textContent=n+" / 24 abgeschlossen";document.getElementById("mapProgress").textContent=n+" / 24 grüne Siegel";document.getElementById("mapHint").textContent=n===24?"Alle Siegel leuchten! Du hast die Winterwelt gerettet.":n+" Mission"+(n===1?"":"en")+" geschafft. Weiter geht's!"}
+function renderMap(){const g=document.getElementById("levelGrid");g.innerHTML="";for(let i=1;i<=24;i++){let b=document.createElement("button");b.className="level"+(state.done.includes(i)?" done":"");b.innerHTML=i+'<span class="tiny">'+(i===13?"♥":i===24?"BOSS":"MISSION")+'</span>';b.setAttribute("aria-label","Level "+i);b.onclick=()=>openLevel(i);g.appendChild(b)}renderProgress()}
+function openLevel(n){current=n;selectedChoice=null;let d=levels[n-1];document.getElementById("levelCount").textContent="Mission "+n+" von 24";document.getElementById("chapterLabel").textContent=n===24?"Finale · Endboss":"Wintersiegel "+String(n).padStart(2,"0");document.getElementById("levelTitle").textContent=d[0];document.getElementById("levelStory").textContent=d[1];document.getElementById("levelTask").innerHTML="<strong>Deine Aufgabe</strong><p style='margin:6px 0 0'>"+d[2]+"</p>";document.getElementById("levelResult").textContent="";document.getElementById("rewardBox").classList.add("hidden");document.getElementById("completeBtn").classList.add("hidden");document.getElementById("nextBtn").classList.add("hidden");let c=document.getElementById("levelChoices");c.innerHTML="";let opts=n===24?["🔥 Wärme","🧭 Klugheit","🛡️ Kraft"]:["Ich untersuche den Ort","Ich setze meinen Mut ein","Ich suche nach einem Hinweis"];opts.forEach((txt,i)=>{let b=document.createElement("button");b.textContent=txt;b.className="soft";b.onclick=()=>choose(n,i);c.appendChild(b)});if(state.done.includes(n)){document.getElementById("levelResult").textContent="Dieses Siegel ist bereits gerettet. Du kannst die Szene erneut lesen.";document.getElementById("completeBtn").classList.add("hidden");document.getElementById("nextBtn").classList.remove("hidden");document.getElementById("nextBtn").textContent=n===24?"Zum Finale →":"Nächste Mission →"}show("levelScreen")}
+function choose(n,i){selectedChoice=i;let d=levels[n-1];let msgs=["Du gehst vorsichtig vor und bemerkst ein kleines Leuchten zwischen den Schneeflocken.","Du atmest tief durch und stellst dich der Herausforderung. Die Winterwelt antwortet auf deinen Mut.","Du entdeckst eine Spur, die zuvor im Schnee verborgen war. Ein hilfreicher Hinweis erscheint."];document.getElementById("levelResult").textContent= n===24?["Du bündelst Wärme, Nähe und Mut. Der Eisregent weicht einen Schritt zurück.","Du liest die Runen, erkennst die Schwachstelle und bringst seine Magie durcheinander.","Du aktivierst deinen Schutz und hältst dem eisigen Angriff stand."][i]:msgs[i];document.getElementById("rewardBox").classList.remove("hidden");document.getElementById("rewardBox").innerHTML="<strong>Belohnung: "+d[4]+"</strong><p style='margin:6px 0 0'>"+d[5]+"</p>"+(d[6]==="real"?"<p style='margin:8px 0 0'>🎁 Dein echtes Geschenk: <b>"+d[3]+"</b></p>":"<p style='margin:8px 0 0'>✨ Magischer Quest-Fund – kein zusätzliches gekauftes Geschenk nötig.</p>");if(n===24){document.getElementById("completeBtn").classList.add("hidden");document.getElementById("nextBtn").classList.add("hidden");let boss=document.createElement("button");boss.className="primary";boss.textContent="Zum Endkampf →";boss.onclick=()=>openBoss();document.getElementById("levelChoices").appendChild(boss)}else{document.getElementById("completeBtn").classList.remove("hidden");document.getElementById("completeBtn").textContent=state.done.includes(n)?"Mission bereits abgeschlossen ✓":"Mission abschließen & Gegenstand einsammeln ✓";document.getElementById("completeBtn").disabled=state.done.includes(n);document.getElementById("nextBtn").classList.add("hidden")}}
+function complete(){if(state.done.includes(current))return;state.done.push(current);let r=realRewards[current];if(r&&!state.items.some(x=>x.name===r[0]))state.items.push({name:r[0],power:r[1],level:current,kind:"real"});else if(!r&&current!==24){let d=levels[current-1];state.items.push({name:d[3],power:d[4],level:current,kind:"magic"})}save();document.getElementById("levelResult").textContent="Geschafft! Das Siegel leuchtet jetzt grün auf der Karte. Dein Fortschritt wurde in diesem Browser gespeichert.";document.getElementById("completeBtn").classList.add("hidden");document.getElementById("nextBtn").classList.remove("hidden");document.getElementById("nextBtn").textContent=current===23?"Zum Endboss →":"Zur nächsten Mission →";document.getElementById("rewardBox").innerHTML+="<p><b>✓ Im Inventar abgelegt!</b></p>"}
+function renderInventory(){let el=document.getElementById("inventoryList");el.innerHTML="";if(!state.items.length){el.innerHTML='<div class="empty">Noch keine Gegenstände gesammelt. Öffne die erste Mission!</div>';return}state.items.forEach(it=>{let d=document.createElement("div");d.className="item";d.innerHTML="<strong>"+(it.kind==="real"?"🎁 ":"✨ ")+it.name+"</strong><span>"+it.power+"</span><div class='muted' style='font-size:.75rem;margin-top:5px'>Gefunden in Level "+it.level+"</div>";el.appendChild(d)})}
+function openBoss(){document.getElementById("bossGear").innerHTML="";state.items.forEach(it=>{let d=document.createElement("div");d.className="item";d.innerHTML="<strong>"+it.name+"</strong><span>"+it.power+"</span>";document.getElementById("bossGear").appendChild(d)});document.getElementById("bossResult").textContent="";document.getElementById("bossFinish").classList.add("hidden");show("bossScreen")}
+document.querySelectorAll("[data-boss]").forEach(b=>b.onclick=()=>{let k=b.dataset.boss;let text={warm:"Du setzt Wintershot, heisse Zitrone und die gemeinsamen Erinnerungen ein. Ein Riss öffnet sich im Herzen aus Eis.",clever:"Stift, Kamm, Lichtsplitter und Kompassrune helfen dir, die falschen Runen zu entwirren. Du entdeckst die Schwachstelle des Eisregenten.",strong:"Frostschild, Heldenrüstung, Nüsse und Riegel halten den Angriff auf. Der Eisregent verliert das Gleichgewicht."};document.getElementById("bossResult").textContent=text[k];document.getElementById("bossFinish").classList.remove("hidden")});
+document.getElementById("bossFinish").onclick=()=>{if(!state.done.includes(24))state.done.push(24);save();show("endingScreen")};
+document.getElementById("startBtn").onclick=()=>{renderMap();show("mapScreen")};
+document.getElementById("inventoryBtn").onclick=()=>{renderInventory();show("inventoryScreen")};
+document.getElementById("backFromInventory").onclick=()=>{renderMap();show("mapScreen")};
+document.getElementById("backMap").onclick=()=>{renderMap();show("mapScreen")};
+document.getElementById("completeBtn").onclick=complete;
+document.getElementById("nextBtn").onclick=()=>{if(current===23){openLevel(24)}else if(current===24){openBoss()}else openLevel(current+1)};
+document.getElementById("endingMap").onclick=()=>{renderMap();show("mapScreen")};
+document.getElementById("resetBtn").onclick=()=>{if(confirm("Wirklich den gesamten Spielstand und alle gesammelten Gegenstände löschen?")){state={done:[],items:[]};save();renderMap()}};
+document.getElementById("signup").onclick=createAccount;
+document.getElementById("login").onclick=signIn;
+document.getElementById("logout").onclick=async()=>{if(sb)await sb.auth.signOut();};
+document.getElementById("localPreview").onclick=()=>{cloudMode=false;document.getElementById("authPanel").classList.add("hidden");show("home");};
+renderProgress();renderMap();initCloud();
+</script>
+</body>
+</html>
